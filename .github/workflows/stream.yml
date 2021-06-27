@@ -31,7 +31,6 @@ jobs:
          run: |
            cd stream
            wget https://raw.githubusercontent.com/CipherX1-ops/MegatronFileStream/main/Dockerfile
-           echo "CMD bash start.sh" >> Dockerfile
            docker build . --rm --force-rm --compress --no-cache=true --pull --file Dockerfile -t stream
            docker run --privileged --env-file .env --rm -i stream
        - name: Loop workflow
