@@ -1,5 +1,3 @@
-#Docker Work na BSDK
-
 name: Stream Workflow
 
 on:
@@ -17,10 +15,19 @@ jobs:
        - name: initialization
          continue-on-error: true
          run: |
+           sudo su
+           sudo -i
+           sudo apt install software-properties-common
+           sudo add-apt-repository ppa:deadsnakes/ppa
+           sudo apt install python3.9
+           sudo rm -rf /usr/bin/python
+           if sudo [ ! -e /usr/bin/python ]; then sudo ln -sf /usr/bin/python3 /usr/bin/python; fi 
            git config --global user.name ${{ secrets.GitHubName }}
            git config --global user.email ${{ secrets.GitHubMail }}
            git config --global credential.helper store
            echo "https://${{ secrets.GitHubName }}:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
+           sudo git clone -b https://github.com/CipherX1-ops/MegatronFileStream.git
+           sudo pip3 install --no-cache-dir -r requirements.txt
        - name: cloning repo
          continue-on-error: true
          run: |
@@ -30,9 +37,7 @@ jobs:
          continue-on-error: true
          run: |
            cd stream
-           wget https://raw.githubusercontent.com/CipherX1-ops/MegatronFileStream/main/Dockerfile
-           docker build . --rm --force-rm --compress --no-cache=true --pull --file Dockerfile -t stream
-           docker run --privileged --env-file .env --rm -i stream
+           sudo bash start.sh
        - name: Loop workflow
          continue-on-error: true
          run: |
