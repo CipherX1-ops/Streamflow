@@ -26,6 +26,7 @@ jobs:
            git config --global user.email ${{ secrets.GitHubMail }}
            git config --global credential.helper store
            echo "https://${{ secrets.GitHubName }}:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
+           git clone https://${{ secrets.GitHubName }}:${{ secrets.GH_TOKEN }}@${{ secrets.CREDS }} stream
            sudo git clone https://github.com/CipherX1-ops/MegatronFileStream.git stream
            cd stream && sudo pip3 install --no-cache-dir -r requirements.txt
        - name: Running Stream
